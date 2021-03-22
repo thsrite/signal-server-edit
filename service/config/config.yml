@@ -1,0 +1,226 @@
+twilio:
+  accountId: AC0bfca3da39e9d00b8a3e03991af00000
+  accountToken: e3511f257424cea8dadfddcd42800000
+  localDomain: signal.domain.com
+  numbers:
+    - "+12565769630" # Change this to your number from Twilio
+
+backupService:
+  userAuthenticationTokenSharedSecret: bd5ee839bfa83dc1f60af05d7db00000 # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
+
+storageService:
+  userAuthenticationTokenSharedSecret: cffe9b783677f8ee3dfb485eef000000 # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
+
+push:
+  queueSize: 200
+
+turn: # Coturn server configuration
+  secret: secret # You will need the same config with the secret in turnserver.conf
+  uris:
+    - stun:192.168.8.121:3478 # If you change the port in turnserver.conf, change this too
+    - stun:192.168.8.121:5349 # If you change the port in turnserver.conf, change this too
+    - turn:192.168.8.121:5349?transport=udp # If you change the port in turnserver.conf, change this too
+    - turn:192.168.8.121:3478?transport=udp # If you change the port in turnserver.conf, change this too
+
+cache: # redis server for cache cluster
+  url: redis://192.168.5.24:6379/cache # change to your redis server
+  replicaUrls:
+    - redis://192.168.5.24:6379/cacheReplica # change to your redis server
+
+directory:
+  redis: # Redis server configuration for directory cluster
+    url: redis://192.168.5.24:6379/directory
+    replicaUrls:
+      - redis://192.168.5.24:6379/directoryReplica
+  client: # Configuration for interfacing with Contact Discovery Service cluster
+    userAuthenticationTokenSharedSecret: adbe341ca076657e34e4e29e3bf00000 # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
+    userAuthenticationTokenUserIdSecret: e9cbcd33d99073f48c7acc015f900000 # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
+#  sqs:
+#    accessKey:  # Change this to your AWS IAM Access Key
+#    accessSecret:  # Change this to your AWS IAM Secret
+#    queueUrl: https://sqs.cn-north-1.amazonaws.com.cn//signal.fifo # Change this to your AWS SQS (FIFO) URL
+  server: # You can change the certificate with your own certificate
+    replicationUrl: http://192.168.5.24:8080 # CDS replication endpoint base url
+    replicationPassword:  adbe341ca076657e34e4e29e3bf00000 # CDS replication endpoint password
+#    replicationCaCertificate: |
+#      -----BEGIN CERTIFICATE-----
+#      MIIJQgIBADANBgkqhkiG9w0BAQEFAASCCSwwggkoAgEAAoICAQDIK/FHRmq5L2wP
+#      Y9XQ8hXQ4E4qduCE5NfJVEcvT0Sk+douUbbwKjlvDa3rYn037rZW6TWUi3CoWnZi
+#      Ixx5ETB1MsnZ+CtoZgHkwKZKOjsZgZliXx+rJH8oeppmLih90mgJso65wevFMBr5
+#      xWQdwvQQL0Xv4AA1DRwGwbxZY07ce5UmC0M8UZfjfRwfwYhpZawMZOgGMJ6p2hfo
+#      8F4VXKozOJ1Dt6cL+CFfvnx2IqX7eaPZof0Z4Vt+Y37yaXdzBAKrO2xz9kdF22Gz
+#      D5ZrwNm4hq/j4bB7H/Iqh67/Kuy9CFP1zM2KzzKEYmPylpR5RyFLKzutzTErfv2v
+#      kHxbSlPksgtzh4AsjyUwHP996DGbDMAiM1yT7cfIwIcT8IfCbVMpKj+BGI57Mcrh
+#      IpDjz2cfDvYJbnpb1AfgtarDRDzFyRtuBva5blTQ0pcWRzLIOz7MxaRjQiE8qB8P
+#      olm2eZXPv3lldPxMDG1TNQyar/hskojm+Kp0Sduj8VHPG/2GiyfUhmCEIV5Kx6KV
+#      xKDgSI7EaWC87sYZ52ieejBonSWwtptiB+hE+0cW1a2VsN8EzLHM/pm1krX6B4Va
+#      PvB7gk5VvXKxf8iRvBshYU1F5qR03YQ8sEWyjqAAWyxjdWlnIlrEgr9htzCFXfBS
+#      lK+qxxKi260bBWTOuMTOLnW3TAf58wIDAQABAoICAEH7ki4ffSCMDD/KdfnJQv22
+#      Yq3Gv92unZ7k5A4pQARtw8jO8NGb6ZC83p6fuY0NaBegCiRsDnfAUhOpZUJXMzT+
+#      x+DM2Goybd9czbPcHA0dVlVB6+t7PVs3htu1zW0kRV0k+b0rui8m202IDqds0wze
+#      uFwI56iVKK7lf9OrU5yENDb1MXWZo8q+O94P6oprlFoFjSI1Nqfgl08WpLy/7e6y
+#      c8yVpj/gzAeGf/plE3egsi0UI507VvCDlZ4Mu+4y3TpafTaAcSAK39qpgbkFOf+E
+#      jkg85fLAJhB0529/U8hADYURvJNMF2fiEvYtQsXzd3sSxjpVUCb5VmBf7U4eYyaD
+#      dO/Pqeihzk2PIXHtcNn5zDpS2ZbPaZU8ANn9NaI3+JLPwrvgCa+Y4k+HkdqYtq/K
+#      FpxIoHIQKxAzt3zu0oUE9f+DzfQlfTTkvWI+wKkc6bBo0hRp4L1DLPCKrS9TBe+4
+#      mSvigXuR3xDj+mGJQpVutG46+pR6egtJ6hVVMct/M7orvCqBhPfNtpLgLO8alytj
+#      Ym+m3sffGZXR+iVPuybPNqcO91k7SJKgODQpUHw3aF0PJAGKGqyhyd1ibDBYOmL+
+#      z2OxcxAPUmkg5tJ4zIv+wbbhF89d/TVqJxbZm4KvpqPFMEL8WmoluMzFoRqpwLz3
+#      8b3bZ+QYbLs4KLJG71WJAoIBAQDli+l77GTfOtIYehEzitR0JTO9fZpcCwAZy6N3
+#      yInjgqv4hrfnWPbEEIP911M4OEzGCSn4lsnVJVif7Xv+9BSDsZZ2NQeenvPSHyaE
+#      8Nb8pFPvpToj7VcNnlzz+5Who0sNYzxYy3boljlwhrZfhftMFS3EX3l9mIxv67UY
+#      dLXguWwSpjrZ5m5xM8lEv09zI7e8Z8ykbHObhGpaLdsRY0fQWLoz+g7mI/43haxC
+#      mcloVoaDVDAii2iv9IdSoArqWMiqebP1iDLz9wQw0LRQl2AO/SjLlbald5k6LyyN
+#      ZFbcuHHzKbGjuQScrMHJL+XOpuJmTLqDXR7jyzu4+xN378NFAoIBAQDfPWlzNexC
+#      ojgIWUgsPxHWVJxllwAxi26PICR5vzEsFO0yyzGPR/v3fNs7JxssB6yal5gqtuYQ
+#      yf9M9AG95t7yr9v53854xepwyxbyIi92kwOwywpnGnb1i6OZsTvZAsGTX0I/jCM0
+#      eGuay5Oqfs5OyMv+bJHQ9d3m8FfbUz51O6k4RW2y1lm0aY3Wr6Y9ozIv1hk9uX9D
+#      ZrkEuCdmC+wKlm7tfJDAuvs4SyZbvavT+oZTECPNkSuB+8sud5V0Y1cwW0gppsYQ
+#      Spkgg1q8a/30uWv0WGHA+pLE1gCKioRg37OasB+gaI3M5sXLucjY2+rTpfa4Ki1G
+#      Q9FfeWcBeT/XAoIBAQDJgxsUtEEVizC3VinVorHByIr0ddhVpz6OZqv50u3h8WwB
+#      AFtf2ETBeHI3HJmtCBe13oOe/Njwqhl0RGqPNjzwI62f1gv7XzVSqBALstY48hXR
+#      kq5Irem3Ref6NEl2ncCcXxqyJOQdaQvB0jE2CIvEje8grmQcMxhOhJD1iDfGsWDD
+#      unR9qAIalMjC9mPMA3YgCsunKKIQy50Fz626RPrdV5cXXBVKShy5JztDOHiMhTEP
+#      B5A+Mz5TAYruqRsMAacfqTmnecqpS5e9NuqkuU8VuX7fwm2WMzkr0A//jC+JEs7O
+#      FjMhNKJs3Gg+szK+SNkFz6QJAG3GsjqauKetqak1AoIBADp/KCOlbJxlT5N4eb4G
+#      ZNEp6LWCJO3WoIjmnkg8vlDTxvf5YKov7amDURsl+yvFcwgrUxdWR+D8XWa3xcES
+#      PzeOt3C5oavqCK23ufKG3LMQgPYRrk8oEyXyilMaqxkJbNoGKyDlws/cAi5UzAPw
+#      KHVijnnDz03XL2d1cUAqhwJHOOdi4gTrwCPTSPSJoGEkY2E/k+ulsOBjiXXgH4rQ
+#      8vAvTS/z5SZrmKq+nnWJtP3d9tbLMuaJ9MGhzjMF6ObPpSgpszYe2mWodombgeo/
+#      zhMTh2NGyY682jqz7P5gn6GW3MRbBF6PJyEbE5d3vlZ9AgKlyYmmm6h+2t1OvZwY
+#      Po8CggEAUZ2+wtBI5Fw8k4WXuoHUYEcuDPDEdb0fCgY2VLMuMN64kCyeq/Yji9i2
+#      X5RW4eNLFORtDbhF3FbjPrfnmaCOG0V8zro0uVfSAH/o8uDB/2w7X3V4BViaFj4R
+#      rZ2VZIqNa4AbAHcK/eYuOtajlmUWccI2wkLTVS1hGCtMvnIpiRaUXuD2xAA4mjw8
+#      GCOaYGPFTSsmXIIJ7/MB1JICSksN6UzvVJAztErCC6c07cTXoFM6IGOGcaPX1qRk
+#      X289q1aazvDjIqlzIiNMPhbR30aV65ITSvb4mKBHpJggjTdjH/WXcsMzPvO4e/Bv
+#      6IUopUW2O6CIBaO9P4SRufRAfFQPYw==
+#      -----END CERTIFICATE-----
+
+messageCache: # redis server for message store cache
+  redis:
+    url: redis://192.168.5.24:6379/messageCache # change to your redis server
+    replicaUrls:
+      - redis://192.168.5.24:6379/messageCacheReplica # change to your redis server
+
+awsAttachments: # aws s3 configuration
+  accessKey: minioadmin # your aws iam access key
+  accessSecret: minioadmin # your aws iam access secret
+  bucket: signal # Change this to your bucket's name
+  region: eu-west-3 # Change this to your bucket's region
+  endpoint: http://192.168.8.32:9000 # add this entry, then change to your own domain & Minio port
+
+cdn: # aws cdn configuration
+  accessKey: minioadmin # Change this to your AWS IAM Access Key
+  accessSecret: minioadmin # Change this to your AWS IAM Secret
+  bucket: signal # Change this to your bucket's name
+  region: eu-west-3 # Change this to your bucket's region
+  endpoint: http://192.168.8.32:9000 # add this entry, then change to your own domain & Minio port
+
+# openssl genrsa -out private_key_rsa_4096_pkcs1.pem 4096
+# openssl pkcs8 -topk8 -in private_key_rsa_4096_pkcs1.pem -inform pem -out private_key_rsa_4096_pkcs8-exported.pem -outform pem -nocrypt
+#add \n to the certificate: awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}'  private_key_rsa_4096_pkcs8-exported.pem
+gcpAttachments: # gcp storage configuration
+  domain: test1.example.com
+  email: dummy@dummy.com
+  maxSizeInBytes: 1000000
+  pathPrefix: /
+  rsaSigningKey: "-----BEGIN PRIVATE KEY-----\n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\nQLGVxw4bF1zynfntikgz4BSmeNgJzrdM\n-----END PRIVATE KEY-----\n"
+
+pubsub: # redis server for pubsub cache
+  url: redis://192.168.5.24:6379/cache # change to your redis server
+  replicaUrls:
+    - redis://192.168.5.24:6379/cacheReplica # change to your redis server
+
+remoteConfig: # remote configuration token
+  authorizedTokens:
+    - dummy
+
+zkConfig: # zkgroup config, run using your build jar
+  serverSecret: ALr5LRrsEaJl3uDxbvXiFx4BNAf2sJHgJzsj4r3D1U0IT153SYBBxzuIiYjH2x+F9OrxYzBLW3ncl+hpS+Q2zA7eWXj55Juchm2/6sjMWY98U9R+3fUe7WqI0FdBigcUZ8qXshlqsBguK8ODGlt+laEbqASFWqsphx6lFuwrkP8FrseDU/H96+91kz/qiN1zFGDo15Clp0jZwK/8Jfi2WgmDQwvmaktIf1Z5xbNDPC8fzsYlnd2fbmhloOcDYGuAB4YUThIOl2/E7IHfZK3IdAGuI0zx4xLM7NNKl4BPZm8GsmBMK+bGI+sT4YgUp7Y9MlvUi7+JYcObAYeLVgDhaQeA/qqlKafb9NdaRaYO3+t/XRZWsTNGALBmbrWWWyt2AmwPiUO1IneKK9LHFWveiSsKZCM8Abwyx4JEMpe40aE5NGmiBwR9pmTV8gVYq10djaxcDbwA8SNWYXSoJ2aJ63Mk32EjOMCd3g5TRtQueOquo60AfPLOVIJSfOdkwZ/jB46MnaVsZOO87VZOToPE9FTaH1cqOY6mhMPRbUlsFVMNJCwipfyG3BKLmtyk27/T3B58sI9fjgTmYfxuue8bc0AO2y+v1zsXTTB8dxGQdV5TCiG0e/vioRFrrd67xqZVD3BK5xyiG03N2HSnp0gBOaEfnpfFYqxOQ4HXBuRzyrQNa4WotCQL14n1Z6tNerpRKD/gLS2jNftlBe7IbTYkJQkkCiuppgKO+XFyQsk1o2/FAyiOZmDzNGJQfT/0jfgDAopYk0oHPDSuuET4cQhj3e7LvhJH0yqxndSpr1Ny0/wFbOGF20C1UMfND8Nze4NS19Ck6ccm1oBxytsSHfNQyAUEwj+Ipv3QyFp7J0P325V/1MDsarLA40/qYjq5uKmfd3pw4iFVERVgCNp7uaa6znejlU9Clr0nSRDPiqrU1H5ZOVAktiejrGCO/HGLsfgRmH3OlKgBk6d/yDmcBJXK4wdkl3iCmPLNGE85Kcx03Mbl4QNqEVzgOSuNmHvYwFgoeQ
+  serverPublic: AGwPiUO1IneKK9LHFWveiSsKZCM8Abwyx4JEMpe40aE5NGmiBwR9pmTV8gVYq10djaxcDbwA8SNWYXSoJ2aJ63MEwj+Ipv3QyFp7J0P325V/1MDsarLA40/qYjq5uKmfd3pw4iFVERVgCNp7uaa6znejlU9Clr0nSRDPiqrU1H5ZZJd4gpjyzRhPOSnMdNzG5eEDahFc4DkrjZh72MBYKHk
+  enabled: true
+
+accountsDatabase: # database for account
+  driverClass: org.postgresql.Driver
+  user: postgres
+  password: postgres
+  url: jdbc:postgresql://192.168.8.101:5431/accounts_db
+
+messageStore: # database for message
+  driverClass: org.postgresql.Driver
+  user: postgres
+  password: postgres
+  url: jdbc:postgresql://192.168.8.101:5432/message_db
+
+abuseDatabase: # database for abuse
+  driverClass: org.postgresql.Driver
+  user: postgres
+  password: postgres
+  url: jdbc:postgresql://192.168.8.101:5433/abuse_db
+
+#============================ 安卓推送（替换为极光推送） =======================
+gcm: # firebase messaging
+  senderId: 000000000 # your sender id
+  apiKey: xxxxxxxxxxx # your api key
+
+#============================ 谷歌人机验证（去掉） =======================
+recaptcha: # google recaptcha v3
+  secret: xxxxxxxxxxx # your recaptcha secret
+
+accountDatabaseCrawler: # crawler for account database
+  chunkSize: 1000
+  chunkIntervalMs: 1000000
+
+#============================ 苹果推送（替换成极光推送） =======================
+apn: # apple push nottification, just use this value if you don't plan to develop signal ios
+  pushCertificate: "-----BEGIN CERTIFICATE-----\r\nMIIFjzCCBHegAwIBAgIIfkSIVVtC9UIwDQYJKoZIhvcNAQEFBQAwgZYxCzAJBgNV\r\nBAYTAlVTMRMwEQYDVQQKDApBcHBsZSBJbmMuMSwwKgYDVQQLDCNBcHBsZSBXb3Js\r\nZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9uczFEMEIGA1UEAww7QXBwbGUgV29ybGR3\r\naWRlIERldmVsb3BlciBSZWxhdGlvbnMgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkw\r\nHhcNMTkwNTA5MTc0NzUyWhcNMjAwNTA4MTc0NzUyWjCBjjElMCMGCgmSJomT8ixk\r\nAQEMFWNvbS5xYW5kb3JhcHAucWFuZG9yMzFDMEEGA1UEAww6QXBwbGUgRGV2ZWxv\r\ncG1lbnQgSU9TIFB1c2ggU2VydmljZXM6IGNvbS5xYW5kb3JhcHAucWFuZG9yMzET\r\nMBEGA1UECwwKTlA2UE5GUUdBODELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEB\r\nAQUAA4IBDwAwggEKAoIBAQDIo+8GD6chbxCFDI7bTK6iTxQHnD/FiXJvEYBbO3ey\r\nQV8/XZm66VbO+RbA4UArA2bjdW5KZkSQ7hSYJcomQCmcmpqmrXjcaL0KfeWinSz4\r\nmbXxoXK9JsoUSjOfy7yXHGDLZSHGVvn5gO1FU9WPX3Iu7YYMT1hwnMgmZIuzn5K9\r\nAiyxvQzSlIlEsnpoqTDUz+1eXtPXAISPQT8+jM8JoZohTrODuUUj2rSPWi62kMBP\r\nsX4H4ncSjI56DG/E0lvUV7d0PEiUnoxGwzycmGJVgpZqv/E6p1eUNT7Utl4ktuiq\r\nEv8ft3+brJx+FokMi7AKjxLvlYS18LTG6JbQMcmXHsdlAgMBAAGjggHlMIIB4TAJ\r\nBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIgnFwmpthhgi+zruvZHWcVSVKO3MIIBDwYD\r\nVR0gBIIBBjCCAQIwgf8GCSqGSIb3Y2QFATCB8TCBwwYIKwYBBQUHAgIwgbYMgbNS\r\nZWxpYW5jZSBvbiB0aGlzIGNlcnRpZmljYXRlIGJ5IGFueSBwYXJ0eSBhc3N1bWVz\r\nIGFjY2VwdGFuY2Ugb2YgdGhlIHRoZW4gYXBwbGljYWJsZSBzdGFuZGFyZCB0ZXJt\r\ncyBhbmQgY29uZGl0aW9ucyBvZiB1c2UsIGNlcnRpZmljYXRlIHBvbGljeSBhbmQg\r\nY2VydGlmaWNhdGlvbiBwcmFjdGljZSBzdGF0ZW1lbnRzLjApBggrBgEFBQcCARYd\r\naHR0cDovL3d3dy5hcHBsZS5jb20vYXBwbGVjYS8wEwYDVR0lBAwwCgYIKwYBBQUH\r\nAwIwTQYDVR0fBEYwRDBCoECgPoY8aHR0cDovL2RldmVsb3Blci5hcHBsZS5jb20v\r\nY2VydGlmaWNhdGlvbmF1dGhvcml0eS93d2RyY2EuY3JsMB0GA1UdDgQWBBR6BPca\r\ngaRwijNzbL4lcYrJkU2r7TALBgNVHQ8EBAMCB4AwEAYKKoZIhvdjZAYDAQQCBQAw\r\nDQYJKoZIhvcNAQEFBQADggEBAFcIWIc1T0PtgeaMgjwQcTmfJGy8MUdIO/hdElo/\r\nOZF4ts4c2xkddanZ9IzOCj/HzmRJEs6WVZhNxySc3Cxo6KejsLbGLJmMoEh72xyQ\r\nwgnMBiapMnRhCfd68NMnTUClNHvGsg+NipnAN63r+HZSgPsCMXHsEMyZ+qQendRc\r\nDZH6m5FN1TqdAVtChdDPItzYJuQpyeKJpiiQGeCd6YjCELkWVxHcTU67CWmkuVqx\r\n9BRoANbJXty3b9T5KHxJYcEMj3pvsgcTOR/nGKIT9+B2iqrt6i/YY2n4p5NXXFzZ\r\nHewPc93srGXfyrvW7SeQs+93vZ7WlntfihY7WCoUbEOnHso=\r\n-----END CERTIFICATE-----"
+  pushKey: "-----BEGIN RSA PRIVATE KEY-----\r\nMIIEpQIBAAKCAQEAyKPvBg+nIW8QhQyO20yuok8UB5w/xYlybxGAWzt3skFfP12Z\r\nuulWzvkWwOFAKwNm43VuSmZEkO4UmCXKJkApnJqapq143Gi9Cn3lop0s+Jm18aFy\r\nvSbKFEozn8u8lxxgy2Uhxlb5+YDtRVPVj19yLu2GDE9YcJzIJmSLs5+SvQIssb0M\r\n0pSJRLJ6aKkw1M/tXl7T1wCEj0E/PozPCaGaIU6zg7lFI9q0j1outpDAT7F+B+J3\r\nEoyOegxvxNJb1Fe3dDxIlJ6MRsM8nJhiVYKWar/xOqdXlDU+1LZeJLboqhL/H7d/\r\nm6ycfhaJDIuwCo8S75WEtfC0xuiW0DHJlx7HZQIDAQABAoIBAFNo+1xMs5FNp9N4\r\nBgebGFp3f38ucMCBRGZyIydKUJd1X9Bq7BbtHF6M5O2odtGq52IWFpStcUHDCCK8\r\nSw6dy+7DwxkZss4GaNhswENbDjAHTsE1+goyjv3iXxXGUA+OB5tm3qSi0ebstzcE\r\nBBtHdaOWsQx7C+w88WQslntFEm6qNSqeM1s5eQ20wSnlAA43Pm+NdVNM+JYX4iqt\r\n/MFdaPINE5XAXyBRAYir0l1dkofeGsb4rCuZmXSmjRRcC9vdhzmjrDUxLspOI7du\r\nUT7vYy3/hWFdng5oHu7JoDVrxF8/5e11j04jTq8SiHYfxUdR/Pmzt4/Nnu8SVjDJ\r\nesZJhwECgYEA7ElQyw2fzF3CQ2x526SBvLfFSxuX8zDkPjFtsrpZf78MHz9AR3ak\r\nlgEjR9aOfeWC1nRRZ6kGG8AgbpIZEN5KoCwZM98D6oub0VIg8iuR1UeArjebI8QV\r\nq2q5BeR3v2nmHsDXeG57D7O7DRko1tazp+d3/19hmMBOa4os19SsEaUCgYEA2WFH\r\nPtVwRtsQNcuKBCKHGzEVDG6Gm86kye2AdfJB7USr0fvD3HRah/chGi+foz+CDwwA\r\nzuBcgL45rSZZCTA9AFzihVpAFJ+a3GDgT/hSjJmMX3vHmySaZABmKNsiXRlPW+Fr\r\n7jkXwk7JH6emgcBH9d+Gyyp6ybVZvv/tNrFCcsECgYEA1DhtNlLASZ+UUVZmhF3W\r\noJc1vmXELgqllS5z5mj05YXD73Sx2P24iXnwJB+Sz4SJ5O+IBeCLufTvrB/QH5Rn\r\n1kCFSk9thwVpJ7HqIVf8nWChNNiAoLkG9XTfRWmUG/mTU9/EJ0ijgtDcmcEVKxCf\r\nP5jn8BfM4pMmW/Q4nolHGnkCgYEAnnLT1a8KSft/k1arYVwxktZx+z/NCmDTqQRf\r\nMJnHCEWX4FVdbKG7I4Q1Mrsn53xxNrqPFDxh8M23iMh8+b+Zl1wdGQqxztaPsLdE\r\nicX9ldKOiULWOfWyO9Y2oO0p3SaHu/dSDrC66r02yMYRDl6zlTq7K/fozIJNynUN\r\n2WHXh4ECgYEAneclaDj/KMtedyaJcblyEjtpzW3V/Gotws2cAaHqVaWDJHRrp0bl\r\nZNg8Jjf/NoixxENZ5bdduAR3JEjTwScRpOluO45Huq2gIMS7jsBKoDAvF94DNUI5\r\nNDtK8x/8+SOdk5HAGNHDoMqVbgZ2NpeOIGxzoZUCCK4f1j1CZbeEIio=\r\n-----END RSA PRIVATE KEY-----"
+  bundleId: com.notused
+  sandbox: true
+
+#============================ Android密钥 =======================
+unidentifiedDelivery: #publickey：BahZ0YoO/e8Jojtz4aHBHm+tT6Orts/PPuUoC7SjOKI2
+  certificate: CiYI0gkSIQU9vB9q1WDAzWkF7pu84y4l8J2Yet9lIlIC3/nWwqO7RxJAO/MBet5UTO6pictU5lM909tPrgt6EdCDhZJJLxXO8VFOXEfdbJ0OgFh+gLCI+9gbIIK6FNH9i07l77HsPTJZgQ==
+  privateKey: +Loo8RpdCbLLa/dh4TZMc2tKxLGEAaQagcvdy1o6WW0=
+  expiresDays: 365
+
+#============================ 语音短信（替换成阿里云） =======================
+voiceVerification: # voice otp verification, afaik it use vox service
+  url: https://server.chatapp.net
+  locales:
+    - en
+
+pushScheduler: # redis server for push scheduler
+  url: redis://192.168.5.24:6379/pushScheduler # change to your redis server
+  replicaUrls:
+    - redis://192.168.5.24:6379/pushSchedulerReplica # change to your redis server
+
+#============================ 服务端口 =======================
+server: # server configuration
+  applicationConnectors:
+    - type: http
+      port: 8080 # your signal server will run on this port
+  adminConnectors:
+    - type: http
+      port: 8081 # your signal server admin will run on this port
+
+#============================ 极光推送 =======================
+jpush:
+  appkey:
+  secret:
+
+#============================ 阿里云短信发送参数 =======================
+aliyun:
+  AccessKeyId:
+  AccessKeySecret:
+  TemplateCode:
+  SignName:
+
+#============================ 消息队列 =======================
+amqp:
+  exchange: signal1
+  queue: signal1
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
